@@ -144,7 +144,6 @@ class Email():
                         print("[-]There was an error connecting to the smtp server")
                         exit()
                     except smtplib.SMTPAuthenticationError:
-                        print("Password Not Found:", password)
                         pass
                     except socks.SOCKS5Error:
                         print("[-]An error was generated when using the proxy.")
