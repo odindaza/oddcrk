@@ -63,6 +63,14 @@ This tool allows you to use proxyhains to send the requests. The syntax for runn
 
 `proxychains python3 oddcrk.py -ip [IP] -usr [USERNAME] -psw [LISTNAME]`
 
+If you want to use another proxy server you must assign the IP and the port.
+
+`python3 oddcrk.py -proxy [IPPROXY] -port [PORT] -ip [IP] -usr [USERNAME] -psw [LISTNAME]`
+
+### Example
+
+`python3 oddcrk.py -proxy 66.29.154.105 -port 1080 52.96.189.34 -usr email@hotmail.com -psw numbers.txt`
+
 ## Support
 
 The tool will be constantly updated as many times as necessary, the tool is still under development, if you find faults in its
