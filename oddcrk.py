@@ -182,9 +182,16 @@ class Proxy(Email):
         self.__port = int(port)
 
     def start_proxy(self):
-        print(f"[+]The server proxy {self.__proxy}:{self.__port} is running...")
-        socks.set_default_proxy(socks.SOCKS5, self.__proxy, self.__port)
-        socket.socket = socks.socksocket          
+        try:
+            print(f"[+]The server proxy {self.__proxy}:{self.__port} is running...")
+            socks.set_default_proxy(socks.SOCKS5, self.__proxy, self.__port)
+            socket.socket = socks.socksocket          
+        except socks.SOCKS5Error:
+            print("[-]An error was generated when using the proxy.")
+            pass
+        except socks.GeneralProxyError:
+            print("[-]An error was generated when using the proxy.")
+            pass
         
 def main():
     if(sys.argv[1] == "-list" and sys.argv[3] == "-add"):
