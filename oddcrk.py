@@ -178,10 +178,11 @@ class Proxy(Email):
     def __init__(self, proxy:str, port: int, ip: str, usr: str, psw: str):
         super().__init__(ip, usr, psw)
 
-        self.__proxy = proxy
-        self.__port = port
+        self.__proxy = str(proxy)
+        self.__port = int(port)
 
     def start_proxy(self):
+        print(f"[+]The server proxy {self.__proxy}:{self.__port} is running...")
         socks.set_default_proxy(socks.SOCKS5, self.__proxy, self.__port)
         socket.socket = socks.socksocket          
         
@@ -193,7 +194,7 @@ def main():
     elif(sys.argv[1] == "-ip" and sys.argv[3] == "-usr" and sys.argv[5] == "-psw"):
         email = Email(sys.argv[2], sys.argv[4], sys.argv[6])
         email.start_attack()
-    elif(sys.argv[1] == "-proxy" and sys.argv[3] == "port" and
+    elif(sys.argv[1] == "-proxy" and sys.argv[3] == "-port" and
          sys.argv[5] == "-ip" and sys.argv[7] == "-usr" and
          sys.argv[9] == "-psw"):
         email_proxy = Proxy(sys.argv[2], int(sys.argv[4]), sys.argv[6], sys.argv[8], sys.argv[10])
